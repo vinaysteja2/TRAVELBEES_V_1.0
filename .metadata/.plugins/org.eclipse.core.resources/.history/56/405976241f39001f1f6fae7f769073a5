@@ -1,0 +1,60 @@
+package com.tour.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.tour.entity.Tour;
+import com.tour.serviceimpl.TourServiceImpl;
+
+class TourControllerTest {
+
+	   @Mock
+	    private TourServiceImpl tourServiceImpl;
+
+	    @InjectMocks
+	    private TourController tourController;
+
+	    @BeforeEach
+	    void setUp() {
+	        MockitoAnnotations.openMocks(this);
+	    }
+
+ @Test
+ void testAddTourWithTouristGuideId() {
+	        Long touristGuideId = 1L;
+	Tour tour = new Tour(1L,"Historical Tour","landmarks.",99.99,8,2L,"photo".getBytes(),"Brief tour.",4.5);
+
+	        when(tourServiceImpl.addTourWithTouristGuideId(touristGuideId, tour)).thenReturn(tour);
+
+	        ResponseEntity<?> response = tourController.addTourWithTouristGuideId(touristGuideId, tour);
+
+	        assertEquals(HttpStatus.OK, response.getStatusCode());
+	        assertEquals(tour, response.getBody());
+	    }
+
+ 
+ @Test
+ void testDeleteTour() {
+     Long tourId = 1L;
+
+     doNothing().when(tourServiceImpl).deleteTour(tourId);
+
+     ResponseEntity<Void> response = tourController.deleteTour(tourId);
+
+     assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+ }
+	
+	
+
+
+
+}

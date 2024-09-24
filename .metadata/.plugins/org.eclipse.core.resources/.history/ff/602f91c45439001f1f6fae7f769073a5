@@ -1,0 +1,14 @@
+package com.tour.serviceimpl;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class TourServiceImplTest {
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

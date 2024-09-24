@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BookingTest" project="Booking" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="com.booking.entity.BookingTest" time="0.021" displayname="BookingTest" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]">
+    <testcase name="updateBookingTest" classname="com.booking.entity.BookingTest" time="0.016" displayname="updateBookingTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]/[method:updateBookingTest()]"/>
+    <testcase name="toStringTest" classname="com.booking.entity.BookingTest" time="0.001" displayname="toStringTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]/[method:toStringTest()]"/>
+    <testcase name="createBookingTest" classname="com.booking.entity.BookingTest" time="0.002" displayname="createBookingTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]/[method:createBookingTest()]"/>
+  </testsuite>
+</testrun>

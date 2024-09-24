@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BookingRepositoryTest" project="Booking" tests="3" started="3" failures="0" errors="0" ignored="0">
+  <testsuite name="com.booking.repository.BookingRepositoryTest" time="3.899" displayname="BookingRepositoryTest" uniqueid="[engine:junit-jupiter]/[class:com.booking.repository.BookingRepositoryTest]">
+    <testcase name="findByTourIdAndBookingDateTest" classname="com.booking.repository.BookingRepositoryTest" time="3.879" displayname="findByTourIdAndBookingDateTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.repository.BookingRepositoryTest]/[method:findByTourIdAndBookingDateTest()]"/>
+    <testcase name="findByUserIdTest" classname="com.booking.repository.BookingRepositoryTest" time="0.008" displayname="findByUserIdTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.repository.BookingRepositoryTest]/[method:findByUserIdTest()]"/>
+    <testcase name="existsByUserIdAndTourIdTest" classname="com.booking.repository.BookingRepositoryTest" time="0.009" displayname="existsByUserIdAndTourIdTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.repository.BookingRepositoryTest]/[method:existsByUserIdAndTourIdTest()]"/>
+  </testsuite>
+</testrun>

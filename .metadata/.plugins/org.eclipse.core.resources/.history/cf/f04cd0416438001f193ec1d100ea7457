@@ -1,0 +1,203 @@
+package com.user.serviceimpl;
+
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+import com.user.config.TwilioConfig;
+import com.user.dto.AdminDto;
+import com.user.dto.AuthResponse;
+import com.user.dto.OtpRequest;
+import com.user.dto.OtpResponseDto;
+import com.user.dto.OtpStatus;
+import com.user.dto.OtpValidationRequest;
+import com.user.dto.OtpValidationResponse;
+import com.user.entity.User;
+import com.user.exception.UserException;
+import com.user.repository.UserRepository;
+
+@Service
+public class UserServiceImpl {
+
+@Autowired
+public UserRepository userCredentialRepository;
+
+@Autowired
+private TwilioConfig twilioConfig;
+
+private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+
+public Map<String, String> otpMap = new HashMap<>();
+	
+	@Autowired
+	public PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	JwtService jwtService;
+	
+	
+	public User saveCredential(User uc) {
+		 if (userCredentialRepository.existsByEmail(uc.getEmail()) || userCredentialRepository.existsByUsername(uc.getUsername()) ) {
+	            throw new UserException("Email or username is already in use");
+	        }
+		 uc.setPassword(passwordEncoder.encode(uc.getPassword()));
+			User credential = userCredentialRepository.save(uc);
+			return credential;
+	    }
+		
+	
+	
+//	public String generateToken(String username) {
+//		
+//		return jwtService.generateToken(username);
+//	}
+public AuthResponse generateToken(String username) {
+	
+	
+	
+	AuthResponse authResponse=new AuthResponse();
+	
+	authResponse.setToken(jwtService.generateToken(username));
+	  User user=userCredentialRepository.findByUsername(username).get();
+	  authResponse.setRole(user.getRole().name());
+	  authResponse.setId(user.getId());
+		
+		return authResponse;
+	}
+	
+	public void validateToken(String token) {
+		jwtService.validateToken(token);
+	}
+	
+/*------------------OTP FEATURE-----------------------------*/
+	public Boolean AdminEmailCheck(AdminDto admin) {
+		 if (userCredentialRepository.existsByEmail(admin.getEmail())) {
+	            throw new UserException("Email is already in use");
+	        }
+		 else {
+			 return true;
+		 }
+	}
+	public User saveAdminCredential(AdminDto admin) {
+		 if (userCredentialRepository.existsByEmail(admin.getEmail())|| userCredentialRepository.existsByUsername(admin.getUsername())) {
+	            throw new UserException("Email or username is already in use");
+	        }
+		 User user=new User();
+		 user.setUsername(admin.getUsername());
+		 user.setPassword(passwordEncoder.encode(admin.getPassword()));
+		 user.setEmail(admin.getEmail());
+		 user.setMobileNo(admin.getMobileNo());
+		 user.setRole(admin.getRole());
+		 
+			User credential = userCredentialRepository.save(user);
+			return credential;
+	    }
+	
+	
+	public OtpResponseDto sendSMS(OtpRequest otpRequest) {
+		OtpResponseDto otpResponseDto = null;
+		try {
+			
+			PhoneNumber to = new PhoneNumber(otpRequest.getPhoneNumber());//to
+			PhoneNumber from = new PhoneNumber(twilioConfig.getPhoneNumber()); // from
+			String otp = generateOTP();
+			String otpMessage = "Dear Customer , Your OTP is  " + otp + " for sending sms through Spring boot application. Thank You.";
+			Message message = Message
+			        .creator(to, from,
+			                otpMessage)
+			        .create();
+			logger.info("stored value in map"+ otpMap);
+			logger.info("stored value in map"+otpRequest.getUsername());
+			otpMap.put(otpRequest.getUsername(), otp);
+			logger.info("stored value in map"+ otpMap);
+			otpResponseDto = new OtpResponseDto(OtpStatus.DELIVERED, otpMessage);
+		} catch (Exception e) {
+			e.printStackTrace();
+			otpResponseDto = new OtpResponseDto(OtpStatus.FAILED, e.getMessage());
+		}
+		return otpResponseDto;
+		
+	}
+	
+	public OtpValidationResponse validateOtp(OtpValidationRequest otpValidationRequest) {
+		logger.info("stored value in validate map"+ otpMap);
+		logger.info("stored value in map"+otpMap.keySet());
+		Set<String> keys = otpMap.keySet();
+		String username = null;
+		for(String key : keys)
+			username = key;
+		logger.info("stored value val in map"+username);
+		logger.info("stored value val in map"+otpValidationRequest.getUsername().equals(username));
+		
+        if (otpValidationRequest.getUsername().equals(username)) {
+            otpMap.remove(username,otpValidationRequest.getOtpNumber());
+            OtpValidationResponse  otpValidationResponse=new  OtpValidationResponse("OTP is valid!");
+            return otpValidationResponse;
+        } else {
+            return null;
+        }
+	}
+	
+	private String generateOTP() {
+        return new DecimalFormat("000000")
+                .format(new Random().nextInt(999999));
+    }
+		
+	
+}
+
+////////////////
+/*----------ROLES BASED -----------*/
+//package com.user.serviceimpl;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.stereotype.Service;
+//
+//import com.user.entity.CustomUserDetailsService;
+//import com.user.entity.User;
+//import com.user.repository.UserRepository;
+//
+//@Service
+//public class UserServiceImpl {
+//
+//    @Autowired
+//    public UserRepository userCredentialRepository;
+//
+//    @Autowired
+//    public PasswordEncoder passwordEncoder;
+//
+//    @Autowired
+//    JwtService jwtService;
+//
+//    @Autowired
+//    CustomUserDetailsService userDetailsService;
+//
+//    public User saveCredential(User uc) {
+//        uc.setPassword(passwordEncoder.encode(uc.getPassword()));
+//        return userCredentialRepository.save(uc);
+//    }
+//
+//    public String generateToken(String username) {
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+//        return jwtService.generateToken(userDetails);
+//    }
+//
+//    public void validateToken(String token) {
+//        jwtService.validateToken(token);
+//    }
+//}
+//

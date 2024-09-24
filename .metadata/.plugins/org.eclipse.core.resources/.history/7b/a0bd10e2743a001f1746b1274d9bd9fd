@@ -1,0 +1,108 @@
+package com.booking.serviceimpl;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.booking.clients.TourClient;
+import com.booking.dto.BookingDto;
+import com.booking.entity.Booking;
+import com.booking.external.Tour;
+import com.booking.repository.BookingRepository;
+
+class BookingServiceImplTest {
+
+	 @InjectMocks
+	    private BookingServiceImpl bookingService;
+
+	    @Mock
+	    private BookingRepository bookingRepository;
+
+	    @Mock
+	    private TourClient tourClient;
+
+	    @BeforeEach
+	    void setUp() {
+	        MockitoAnnotations.openMocks(this);
+	    }
+
+	    @Test
+	    public void getAllBookingsTest() {
+	        Booking booking1 = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+	        Booking booking2 = new Booking(2L, 2L, 2L, LocalDate.now(), 3, false);
+	        List<Booking> bookings = Arrays.asList(booking1, booking2);
+
+	        when(bookingRepository.findAll()).thenReturn(bookings);
+
+	        List<Booking> result = bookingService.getAllBookings();
+
+	        assertEquals(2, result.size());
+	    }
+
+	    @Test
+	    public void getBookingByIdTest() {
+	        Booking booking = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+	        Tour tour = new Tour();
+	        tour.setId(1L);
+          when(bookingRepository.existsById(1L)).thenReturn(true);
+	        when(bookingRepository.findById(anyLong())).thenReturn(Optional.of(booking));
+	        when(tourClient.getTour(anyLong())).thenReturn(tour);
+
+	        BookingDto result = bookingService.getBookingById(1L);
+
+	        assertEquals(1L, result.getId());
+	    }
+
+	    @Test
+	    public void bookTourTest() {
+	        Booking booking = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+	        
+	        // Simulate no existing bookings for the given tour and date
+	        when(bookingRepository.findByTourIdAndBookingDate(anyLong(), any(LocalDate.class))).thenReturn(Collections.emptyList());
+	        
+	        when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
+
+	        Booking result = bookingService.bookTour(1L, 1L, LocalDate.now(), 2);
+
+	        assertEquals(1L, result.getUserId());
+	    }
+
+	    @Test
+	    public void deleteBookingTest() {
+	        Booking booking = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+	        when(bookingRepository.existsById(1L)).thenReturn(true);
+	        when(bookingRepository.findById(anyLong())).thenReturn(Optional.of(booking));
+
+	        bookingService.deleteBooking(1L);
+
+	        assertDoesNotThrow(() -> bookingService.deleteBooking(1L));
+	    }
+
+	    @Test
+	    public void updatePaymentStatusTest() {
+	        Booking booking = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+
+	        
+	        when(bookingRepository.findById(anyLong())).thenReturn(Optional.of(booking));
+	        when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
+
+	        Booking result = bookingService.updatePaymentStatus(1L, true);
+
+	        assertEquals(true, result.isPaymentStatus());
+	    }
+
+}

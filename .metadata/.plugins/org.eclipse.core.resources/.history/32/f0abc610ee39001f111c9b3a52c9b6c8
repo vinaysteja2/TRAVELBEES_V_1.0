@@ -1,0 +1,14 @@
+package com.touristguide.serviceimpl;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class TouristGuideServiceImplTest {
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

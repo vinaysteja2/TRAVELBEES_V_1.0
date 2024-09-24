@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BookingTest" project="Booking" tests="3" started="3" failures="1" errors="0" ignored="0">
+  <testsuite name="com.booking.entity.BookingTest" time="0.05" displayname="BookingTest" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]">
+    <testcase name="updateBookingTest" classname="com.booking.entity.BookingTest" time="0.025" displayname="updateBookingTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]/[method:updateBookingTest()]"/>
+    <testcase name="toStringTest" classname="com.booking.entity.BookingTest" time="0.02" displayname="toStringTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]/[method:toStringTest()]">
+      <failure>
+        <expected>Booking [id=1, userId=1, tourId=1, bookingDate=2024-07-08, numberOfPersons=2, paymentStatus=false]</expected>
+        <actual>Booking [id=1, userId=1, tourId=1, bookingDate=2024-07-08, numberOfPersons=2, paymentStatus=false, bookingStatus=notBooked, paymentId=1]</actual>
+        org.opentest4j.AssertionFailedError: expected: &lt;Booking [id=1, userId=1, tourId=1, bookingDate=2024-07-08, numberOfPersons=2, paymentStatus=false]&gt; but was: &lt;Booking [id=1, userId=1, tourId=1, bookingDate=2024-07-08, numberOfPersons=2, paymentStatus=false, bookingStatus=notBooked, paymentId=1]&gt;&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)&#13;
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)&#13;
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)&#13;
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)&#13;
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)&#13;
+	at com.booking.entity.BookingTest.toStringTest(BookingTest.java:73)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+
+      </failure>
+    </testcase>
+    <testcase name="createBookingTest" classname="com.booking.entity.BookingTest" time="0.002" displayname="createBookingTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.entity.BookingTest]/[method:createBookingTest()]"/>
+  </testsuite>
+</testrun>

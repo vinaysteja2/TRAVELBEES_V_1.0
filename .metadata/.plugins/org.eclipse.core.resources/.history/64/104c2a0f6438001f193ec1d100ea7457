@@ -1,0 +1,20 @@
+package com.user.dto;
+
+public class AuthResponse {
+	
+	private String token;
+	
+	private String role;
+	
+	private long Id;
+
+	public AuthResponse() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	
+	
+
+}

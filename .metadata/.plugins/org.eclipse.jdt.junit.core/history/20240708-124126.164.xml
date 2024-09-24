@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BookingControllerTest" project="Booking" tests="5" started="5" failures="0" errors="1" ignored="0">
+  <testsuite name="com.booking.controller.BookingControllerTest" time="3.322" displayname="BookingControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]">
+    <testcase name="getBookingByIdTest" classname="com.booking.controller.BookingControllerTest" time="3.222" displayname="getBookingByIdTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:getBookingByIdTest()]"/>
+    <testcase name="updatePaymentStatusTest" classname="com.booking.controller.BookingControllerTest" time="0.061" displayname="updatePaymentStatusTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:updatePaymentStatusTest()]">
+      <error>org.mockito.exceptions.misusing.InvalidUseOfMatchersException: 
+Invalid use of argument matchers!
+3 matchers expected, 1 recorded:
+-&gt; at com.booking.controller.BookingControllerTest.updatePaymentStatusTest(BookingControllerTest.java:81)
+
+This exception may occur if matchers are combined with raw values:
+    //incorrect:
+    someMethod(any(), "raw String");
+When using matchers, all arguments have to be provided by matchers.
+For example:
+    //correct:
+    someMethod(any(), eq("String by matcher"));
+
+For more info see javadoc for Matchers class.
+&#13;
+	at com.booking.serviceimpl.BookingServiceImpl.updatePaymentStatus(BookingServiceImpl.java:123)&#13;
+	at com.booking.controller.BookingController.updatePaymentStatus(BookingController.java:59)&#13;
+	at com.booking.controller.BookingControllerTest.updatePaymentStatusTest(BookingControllerTest.java:81)&#13;
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)&#13;
+&#13;
+</error>
+    </testcase>
+    <testcase name="deleteBookingTest" classname="com.booking.controller.BookingControllerTest" time="0.01" displayname="deleteBookingTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:deleteBookingTest()]"/>
+    <testcase name="bookTourTest" classname="com.booking.controller.BookingControllerTest" time="0.009" displayname="bookTourTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:bookTourTest()]"/>
+    <testcase name="getAllBookingsTest" classname="com.booking.controller.BookingControllerTest" time="0.008" displayname="getAllBookingsTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:getAllBookingsTest()]"/>
+  </testsuite>
+</testrun>

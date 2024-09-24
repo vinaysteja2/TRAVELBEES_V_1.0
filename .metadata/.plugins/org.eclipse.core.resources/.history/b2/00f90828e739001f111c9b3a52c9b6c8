@@ -1,0 +1,84 @@
+package com.payment.controller;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+class PaymentControllerTest {
+
+	  @Mock
+	    private BookingServiceImpl bookingService;
+
+	    @InjectMocks
+	    private BookingController bookingController;
+
+	    @BeforeEach
+	    void setUp() {
+	        MockitoAnnotations.openMocks(this);
+	    }
+
+	    @Test
+	    public void testGetAllBookings() {
+	        Booking booking1 = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+	        Booking booking2 = new Booking(2L, 2L, 2L, LocalDate.now(), 3, false);
+	        List<Booking> bookings = Arrays.asList(booking1, booking2);
+
+	        when(bookingService.getAllBookings()).thenReturn(bookings);
+
+	        List<Booking> result = bookingController.getAllBookings();
+
+	        assertEquals(2, result.size());
+	    }
+
+	    @Test
+	    public void testGetBookingById() {
+	        Long bookingId = 1L;
+	        Booking booking = new Booking(bookingId, 1L, 1L, LocalDate.now(), 2, false);
+
+	        when(bookingService.getBookingById(bookingId)).thenReturn(booking);
+
+	        Booking result = bookingController.getBookingById(bookingId);
+
+	        assertEquals(bookingId, result.getId());
+	    }
+
+	    @Test
+	    public void testCreateBooking() {
+	        Booking booking = new Booking(1L, 1L, 1L, LocalDate.now(), 2, false);
+
+	        when(bookingService.createBooking(any(Booking.class))).thenReturn(booking);
+
+	        Booking result = bookingController.createBooking(booking);
+
+	        assertEquals(1L, result.getId());
+	    }
+
+	    @Test
+	    public void testUpdateBooking() {
+	        Long bookingId = 1L;
+	        Booking updatedBooking = new Booking(bookingId, 2L, 2L, LocalDate.now(), 3, false);
+
+	        when(bookingService.updateBooking(any(Long.class), any(Booking.class))).thenReturn(updatedBooking);
+
+	        Booking result = bookingController.updateBooking(bookingId, updatedBooking);
+
+	        assertEquals(2L, result.getUserId());
+	    }
+
+	    @Test
+	    public void testDeleteBooking() {
+	        Long bookingId = 1L;
+
+	        bookingController.deleteBooking(bookingId);
+
+	        // Verify that deleteBooking method of bookingService is called once with the correct argument
+	        verify(bookingService).deleteBooking(bookingId);
+	    }
+}

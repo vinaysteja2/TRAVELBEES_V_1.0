@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun BookingControllerTest" project="Booking" tests="5" started="5" failures="0" errors="0" ignored="0">
+  <testsuite name="com.booking.controller.BookingControllerTest" time="2.433" displayname="BookingControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]">
+    <testcase name="getBookingByIdTest" classname="com.booking.controller.BookingControllerTest" time="2.384" displayname="getBookingByIdTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:getBookingByIdTest()]"/>
+    <testcase name="updatePaymentStatusTest" classname="com.booking.controller.BookingControllerTest" time="0.016" displayname="updatePaymentStatusTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:updatePaymentStatusTest()]"/>
+    <testcase name="deleteBookingTest" classname="com.booking.controller.BookingControllerTest" time="0.008" displayname="deleteBookingTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:deleteBookingTest()]"/>
+    <testcase name="bookTourTest" classname="com.booking.controller.BookingControllerTest" time="0.006" displayname="bookTourTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:bookTourTest()]"/>
+    <testcase name="getAllBookingsTest" classname="com.booking.controller.BookingControllerTest" time="0.008" displayname="getAllBookingsTest()" uniqueid="[engine:junit-jupiter]/[class:com.booking.controller.BookingControllerTest]/[method:getAllBookingsTest()]"/>
+  </testsuite>
+</testrun>

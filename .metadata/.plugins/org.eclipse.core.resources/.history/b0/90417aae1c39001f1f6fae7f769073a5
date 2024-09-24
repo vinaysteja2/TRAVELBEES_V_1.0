@@ -1,0 +1,47 @@
+package com.tour.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class TourControllerTest {
+
+	@Test
+	void testAddTourWithTouristGuideId() {
+		fail("Not yet implemented");
+	}
+	
+	
+	
+
+//	@Test
+//	void testDeleteTour() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	void testDeleteTourByTouristGuideId() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	void testUpdateTour() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	void testGetAllTours() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	void testGetTourById() {
+//		fail("Not yet implemented");
+//	}
+//
+//	@Test
+//	void testGetToursByTouristGuideId() {
+//		fail("Not yet implemented");
+//	}
+
+}

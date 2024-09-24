@@ -1,0 +1,113 @@
+package com.touristguide.controller;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+
+import java.util.Collections;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.touristguide.entity.TouristGuide;
+import com.touristguide.serviceimpl.TouristGuideServiceImpl;
+
+class TouristGuideControllerTest {
+	
+	   @Mock
+	    private TouristGuideServiceImpl touristGuideService;
+
+	    @InjectMocks
+	    private TouristGuideController touristGuideController;
+
+	    @BeforeEach
+	    void setUp() {
+	        MockitoAnnotations.initMocks(this);
+	    }
+
+	    @Test
+	    void testAddTouristGuide() {
+	        TouristGuide touristGuide = new TouristGuide();
+	        touristGuide.setName("John Doe");
+
+	        when(touristGuideService.addTouristGuide(any(TouristGuide.class))).thenReturn(touristGuide);
+
+	        ResponseEntity<?> responseEntity = touristGuideController.addTouristGuide(touristGuide);
+
+	        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+	        assertEquals(touristGuide, responseEntity.getBody());
+	    }
+
+	    @Test
+	    void testGetTouristGuideById() {
+	        Long touristGuideId = 1L;
+	        when(touristGuideService.getTouristGuideById(touristGuideId)).thenReturn(null);
+
+	        ResponseEntity<?> responseEntity = touristGuideController.getTouristGuideById(touristGuideId);
+
+	        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+	        assertEquals("touristGuide not found", responseEntity.getBody());
+	    }
+
+	    @Test
+	    void testUpdateTouristGuide() {
+	        Long touristGuideId = 1L;
+	        TouristGuide updatedTouristGuide = new TouristGuide();
+
+	        doNothing().when(touristGuideService).updateTouristGuide(eq(touristGuideId), any(TouristGuide.class));
+
+	        ResponseEntity<Void> responseEntity = touristGuideController.updateTouristGuide(touristGuideId, updatedTouristGuide);
+
+	        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+	    }
+
+	    @Test
+	    void testDeleteTouristGuide() {
+	        Long touristGuideId = 1L;
+
+	        doNothing().when(touristGuideService).deleteTouristGuide(touristGuideId);
+
+	        ResponseEntity<Void> responseEntity = touristGuideController.deleteTouristGuide(touristGuideId);
+
+	        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+	    }
+
+	    @Test
+	    void testSearchTouristGuides() {
+	        String location = "New York";
+	        when(touristGuideService.searchTouristGuides(location)).thenReturn(Collections.emptyList());
+
+	        ResponseEntity<?> responseEntity = touristGuideController.searchTouristGuides(location);
+
+	        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+	        assertEquals("Failed to retrieve  locations of tourist guide", responseEntity.getBody());
+	    }
+
+	    @Test
+	    void testGetAllTouristGuides() {
+	        when(touristGuideService.getAllTouristGuides()).thenReturn(Collections.emptyList());
+
+	        ResponseEntity<?> responseEntity = touristGuideController.getAllTouristGuides();
+
+	        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+	        assertEquals("Failed to retrieve tours of tourist guides", responseEntity.getBody());
+	    }
+
+	    @Test
+	    void testGetAllLocations() {
+	        when(touristGuideService.getAllLocations()).thenReturn(Collections.singletonList("New York"));
+
+	        ResponseEntity<?> responseEntity = touristGuideController.getAllLocations();
+
+	        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+	        assertEquals(Collections.singletonList("New York"), responseEntity.getBody());
+	    }
+
+}
