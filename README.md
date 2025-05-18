@@ -1,34 +1,58 @@
 "# TRAVEL-BEES Project(v1.0)" 
 ![Travel Bees Logo](https://github.com/vinaysteja2/TRAVELBEES_V_1.0/blob/master/IMAGES_OVERVIEW/Screenshot%20(94).png?raw=true)
 
-TRAVEL BEes is a comprehensive tourist guide application designed to bridge the gap between travelers and local tourist guides across various destinations. The application adopts a microservices architecture, enabling improved scalability, flexibility, and maintainability as the platform grows and evolves.
+🐝TRAVEL BEes - Tourist Guide Application (v1.0)
+TRAVEL BEes is a comprehensive tourist guide application designed to connect travelers with local tourist guides across multiple destinations. This application is built using a microservices architecture to ensure scalability, flexibility, and maintainability.
 
-The current version of TRAVEL BEes comprises eight dedicated microservices, each responsible for specific functionalities within the system. These include:
+Overview
+The platform currently consists of 8 microservices:
 
-The Service Registry, which manages service discovery across the microservices;
+Service Registry — For managing service discovery across microservices.
 
-The API Gateway, which securely routes incoming requests to the appropriate services;
+API Gateway — To route requests to appropriate microservices securely.
 
-The User Service, which handles user registration, authentication, and profile management;
+User Service — Manages user authentication and profiles.
 
-The Tour Service, which manages tour-related information and updates;
+Tour Service — Handles tour information and updates.
 
-The Tourist Guide Service, which manages profiles of tourist guides and the places they are assigned to;
+Tourist Guide Service — Manages tourist guide profiles and their assigned places.
 
-The Booking Service, which handles user tour bookings;
+Booking Service — Processes user bookings for tours.
 
-The Review Service, where users can submit and view reviews and ratings; and
+Review Service — Manages user reviews and ratings for tours and guides.
 
-The Payment Service, which integrates with Razorpay for secure online payments.
+Payment Service — Integrates payment processing for bookings.
 
-From the admin perspective, TRAVEL BEes provides a system where multiple tourist guides can be assigned to different regions such as Karnataka, Pune, and others. Each region may have several tourist guides, and each guide can conduct tours covering multiple tourist destinations. The admin also has the authority to update tour and tourist guide information at any time.
+How It Works
+Admin Management
+The admin assigns multiple tourist guides to various locations such as Karnataka, Pune, etc. Each location can have several tourist guides, and each guide offers tours covering multiple places.
 
-From the user perspective, the experience begins with registration and login. Once authenticated, users can search for any location, such as "Bengaluru," and view a list of tourist guides available in that area. After selecting a tourist guide, the user is presented with a detailed view of the places that the selected guide covers, along with available tours.
+User Experience
+Users first register and log in to the application. After authentication, users can search for a destination (e.g., Bengaluru). The application then displays all tourist guides available in that area.
 
-Users can then proceed to book tours through an integrated payment system powered by Razorpay, which supports debit cards, credit cards, and net banking. Once the payment is successful, the booking is confirmed, and the details are stored securely in the user’s booking history. If needed, users also have the option to cancel bookings. Additionally, the application provides functionality for users to download PDF reports summarizing their tour and guide information for future reference or offline use.
+Tour Guide Selection
+Once a user selects a tourist guide, the application presents a detailed list of places that guide covers. Users can browse tours offered by that guide.
 
-The application is built using Java, Spring Boot, and Spring Data JPA for the backend, with PostgreSQL as the relational database. Spring Security with JWT (JSON Web Tokens) is employed to secure user sessions and APIs. Payment integration is handled through Razorpay, allowing for multiple modes of payment. The system’s architecture is designed using the microservices pattern, with a Service Registry and API Gateway facilitating efficient communication and service orchestration.
+Booking & Payment
+Users can book a tour with the chosen guide and complete payment through the integrated Razorpay payment gateway. The system supports multiple payment modes including debit cards, credit cards, and net banking.
 
-Additional Features
-Beyond core functionalities, TRAVEL BEes includes several user experience enhancements. An OTP system ensures secure admin logins, preventing unauthorized access. The frontend includes notification boxes that provide real-time feedback for user actions such as bookings, cancellations, and errors. Additionally, sliding window UI components contribute to a modern and interactive user interface, enhancing the overall usability and appeal of the application.
+Post Booking Features
+After booking, users can view their booking history, cancel bookings if needed, and even download detailed PDF reports containing tour and guide information for future reference.
 
+Technology Stack
+Backend: Java, Spring Boot, Spring Data JPA
+
+Database: PostgreSQL
+
+Security: Spring Security with JWT (JSON Web Tokens)
+
+Payment Integration: Razorpay (supporting debit, credit, and net banking)
+
+Architecture: Microservices with Service Registry and API Gateway
+
+ Additional Features
+✅ OTP system for secure admin login
+
+🔔 Notification boxes on the frontend for status updates and confirmations
+
+⏭️ Sliding window UI components for smooth navigation and modern UX
