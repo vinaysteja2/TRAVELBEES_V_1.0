@@ -1,5 +1,6 @@
 "# TRAVEL-BEES Project(v1.0)" 
-![Travel Bees Logo](https://github.com/vinaysteja2/TRAVELBEES_V_1.0/blob/master/IMAGES_OVERVIEW/Screenshot%20(94).png?raw=true)
+![Travel Bees Logo](https://github.com/vinaysteja2/TRAVELBEES_V_1.0/blob/master/IMAGES_OVERVIEW/Screenshot%202025-05-18%20122041.png?raw=true)
+![Travel Bees](https://github.com/vinaysteja2/TRAVELBEES_V_1.0/blob/master/IMAGES_OVERVIEW/Screenshot%202025-05-18%20122041.png?raw=true)
 
 🐝TRAVEL BEes - Tourist Guide Application (v1.0)
 TRAVEL BEes is a comprehensive tourist guide application designed to connect travelers with local tourist guides across multiple destinations. This application is built using a microservices architecture to ensure scalability, flexibility, and maintainability.
@@ -56,3 +57,4 @@ Architecture: Microservices with Service Registry and API Gateway
 🔔 Notification boxes on the frontend for status updates and confirmations
 
 ⏭️ Sliding window UI components for smooth navigation and modern UX
+![Travel Bees](https://github.com/vinaysteja2/TRAVELBEES_V_1.0/blob/master/IMAGES_OVERVIEW/Screenshot%20(102).png?raw=true)
