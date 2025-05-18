@@ -1,0 +1,52 @@
+<!-- <div>
+    <nav class="navbar navbar-expand-sm bg-pink navbar-dark">
+       <ul class="navbar-nav"> 
+        <li class="nav-item">
+            <a class="nav-link" routerLink="userRegister" routerLinkActive="active" class="nav-link" >UserRegister</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="userLogin" routerLinkActive="active" class="nav-link">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="adminRegister" routerLinkActive="active" class="nav-link">AdminRegister</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="otpValidation" routerLinkActive="active" class="nav-link">OTPValidation</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="selectPlace" routerLinkActive="active" class="nav-link" >selectPlace</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="addTouristGuide" routerLinkActive="active" class="nav-link" >AddTouristGuide</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="addTours/8" routerLinkActive="active" class="nav-link" >AddTours</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="adminTouristGuides" routerLinkActive="active" class="nav-link" >AdminTouristGuides</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink="adminTours/8" routerLinkActive="active" class="nav-link" >AdminTours</a>
+    </li>
+      </ul>
+    </nav>
+</div>
+<router-outlet></router-outlet> -->
+
+<!-- app.component.html -->
+<ng-container *ngIf="isAdminRegistrationRoute(); else userNav">
+    <app-admin-nav></app-admin-nav>
+  </ng-container>
+  <ng-template #userNav>
+    <ng-container *ngIf="isUserRegistrationRoute(); else defaultNav">
+      <app-user-nav></app-user-nav>
+    </ng-container>
+  </ng-template>
+  <ng-template #defaultNav>
+    <app-main-nav></app-main-nav>
+  </ng-template>
+  <!-- <li class="nav-item">
+    <a class="nav-link" routerLink="pdfgen" routerLinkActive="active" class="nav-link" >pdfgen</a>
+</li>  -->
+  <router-outlet></router-outlet>
+  

@@ -1,0 +1,8 @@
+{
+    "/auth": {
+      "target": "http://13.200.254.156:8090",
+      "secure": false,
+      "changeOrigin": true
+    }
+  }
+  
