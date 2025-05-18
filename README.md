@@ -1,4 +1,5 @@
-"# TRAVEL-BEES Project" 
+"# TRAVEL-BEES Project(v1.0)" 
+
 TRAVEL BEes - Tourist Guide Application (v1.0)
 TRAVEL BEes is a comprehensive tourist guide application designed to connect travelers with local tourist guides across multiple destinations. This application is built using a microservices architecture to ensure scalability, flexibility, and maintainability.
 
