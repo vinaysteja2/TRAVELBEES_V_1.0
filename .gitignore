@@ -1,5 +1,4 @@
 # Ignore all application.properties files
-**/application.properties
 **/application-docker.properties
 
 # Docker files
