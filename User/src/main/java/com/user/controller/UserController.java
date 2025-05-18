@@ -74,73 +74,85 @@ public UserServiceImpl userCredentialService;
 		return new ResponseEntity<>(user, HttpStatus.OK);
 		
 	}
-	
-	/*----------------OTP FEATURE-------------------------------*/
-	public AdminDto admindto1;
-	
-	@PostMapping("/adminRegister")
+	/*--------simple admin register without otp for testing--------------*/
+	@PostMapping("/adminRegisterwithoutOTP")
 	public ResponseEntity<?> addNewAdmin(@Valid @RequestBody AdminDto admin) {
-		if( userCredentialService.AdminEmailCheck(admin)) {
-		OtpRequest otpRequest=new OtpRequest();
-		otpRequest.setUsername(admin.getUsername());
-		otpRequest.setPhoneNumber(admin.getMobileNo());
-		 OtpResponseDto otpResponse = userCredentialService.sendSMS(otpRequest);
-		 
-		 if(otpResponse.getStatus().toString()=="FAILED") {
-			 
-			 return ResponseEntity.ok(otpResponse);
-			 
-		 }
-		 else {
-			 
-			 admindto1=admin;
-			 return ResponseEntity.ok(otpResponse);
-			 
-		 }}
-		else {
-			return  ResponseEntity.ok("email already present");
+		
+			  return ResponseEntity.ok(userCredentialService.saveAdminCredential(admin));
+				
+		
+			
+				
 		}
 		
-	}
+		/*-------------------------------------------------------------------------*/
 	
-	 @PostMapping("/send-otp")
-	    public ResponseEntity<?> sendOtp(@RequestBody OtpRequest otpRequest) {
-	        try {
-	        	System.out.println(otpRequest.getUsername()+""+otpRequest.getPhoneNumber());
-	            // Check if username or mobile number already exists
-	            if (true) {
-	            	  OtpResponseDto otpResponse = userCredentialService.sendSMS(otpRequest);
-	  	            return ResponseEntity.ok(otpResponse);
-	            	
-	            }
-	            else {
-	            	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username and mobile number not found");
-	            
-	            }
-	            // Proceed with sending OTP if username and mobile number are unique
-	          
-	        } catch (Exception e) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send OTP");
-	        }
-	    }
-	    
-
-	    @PostMapping("/validate-otp")
-	    public ResponseEntity<?> validateOtp(@RequestBody OtpValidationRequest otpValidationRequest) {
-	        try {
-	        	OtpValidationResponse validationResponse = userCredentialService.validateOtp(otpValidationRequest);
-	        	logger.info("vlidation response "+ validationResponse);
-	        	if(validationResponse!=null) {
-	        		logger.info("saving admin "+ admindto1);
-	        		userCredentialService.saveAdminCredential(admindto1);
-	            return ResponseEntity.status(HttpStatus.CREATED).body(validationResponse);
-	        	}else {
-	        		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(" Invalid OTP"); 
-	        	}
-	        } catch (Exception e) {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to validate OTP"); 
-	        }
-	    }
+	/*----------------WITH OTP FEATURE-------------------------------*/
+	public AdminDto admindto1;
+	
+//	@PostMapping("/adminRegister")
+//	public ResponseEntity<?> addNewAdmin(@Valid @RequestBody AdminDto admin) {
+//		if( userCredentialService.AdminEmailCheck(admin)) {
+//		OtpRequest otpRequest=new OtpRequest();
+//		otpRequest.setUsername(admin.getUsername());
+//		otpRequest.setPhoneNumber(admin.getMobileNo());
+//		 OtpResponseDto otpResponse = userCredentialService.sendSMS(otpRequest);
+//		 
+//		 if(otpResponse.getStatus().toString()=="FAILED") {
+//			 
+//			 return ResponseEntity.ok(otpResponse);
+//			 
+//		 }
+//		 else {
+//			 
+//			 admindto1=admin;
+//			 return ResponseEntity.ok(otpResponse);
+//			 
+//		 }}
+//		else {
+//			return  ResponseEntity.ok("email already present");
+//		}
+//		
+//	}
+//	
+//	 @PostMapping("/send-otp")
+//	    public ResponseEntity<?> sendOtp(@RequestBody OtpRequest otpRequest) {
+//	        try {
+//	        	System.out.println(otpRequest.getUsername()+""+otpRequest.getPhoneNumber());
+//	            // Check if username or mobile number already exists
+//	            if (true) {
+//	            	  OtpResponseDto otpResponse = userCredentialService.sendSMS(otpRequest);
+//	  	            return ResponseEntity.ok(otpResponse);
+//	            	
+//	            }
+//	            else {
+//	            	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username and mobile number not found");
+//	            
+//	            }
+//	            // Proceed with sending OTP if username and mobile number are unique
+//	          
+//	        } catch (Exception e) {
+//	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send OTP");
+//	        }
+//	    }
+//	    
+//
+//	    @PostMapping("/validate-otp")
+//	    public ResponseEntity<?> validateOtp(@RequestBody OtpValidationRequest otpValidationRequest) {
+//	        try {
+//	        	OtpValidationResponse validationResponse = userCredentialService.validateOtp(otpValidationRequest);
+//	        	logger.info("vlidation response "+ validationResponse);
+//	        	if(validationResponse!=null) {
+//	        		logger.info("saving admin "+ admindto1);
+//	        		userCredentialService.saveAdminCredential(admindto1);
+//	            return ResponseEntity.status(HttpStatus.CREATED).body(validationResponse);
+//	        	}else {
+//	        		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(" Invalid OTP"); 
+//	        	}
+//	        } catch (Exception e) {
+//	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to validate OTP"); 
+//	        }
+//	    }
 }
 
 

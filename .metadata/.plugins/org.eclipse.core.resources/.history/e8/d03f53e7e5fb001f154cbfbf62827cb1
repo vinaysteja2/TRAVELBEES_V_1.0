@@ -1,0 +1,160 @@
+package com.user.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.user.dto.AdminDto;
+import com.user.dto.AuthRequest;
+import com.user.dto.AuthResponse;
+import com.user.dto.OtpRequest;
+import com.user.dto.OtpResponseDto;
+import com.user.dto.OtpValidationRequest;
+import com.user.dto.OtpValidationResponse;
+import com.user.entity.User;
+import com.user.exception.UserException;
+import com.user.serviceimpl.UserServiceImpl;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/auth")
+public class UserController {
+	
+	@Autowired
+public UserServiceImpl userCredentialService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+	
+	@Autowired
+	AuthenticationManager authenticationManager;
+	
+	@PostMapping("/register")
+	public User addNewUser(@Valid @RequestBody User user) {
+		return userCredentialService.saveCredential(user);
+	}
+	
+	@PostMapping("/token")
+	public ResponseEntity<AuthResponse> getToken(@RequestBody AuthRequest authreq) {
+		Authentication authenticate =  authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authreq.getUsername(),authreq.getPassword()));
+		if(authenticate.isAuthenticated()) {
+		
+		AuthResponse authResponse=userCredentialService.generateToken(authreq.getUsername());
+		
+		return ResponseEntity.ok(authResponse);
+		}else {
+			throw new RuntimeException("Invalid Credentials");
+		}
+	}
+	
+	@GetMapping("/validate")
+	public String validateToken(@RequestParam("token") String token) {
+		userCredentialService.validateToken(token);
+		
+		return "token is validated";
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getByUserId(@PathVariable("id") Long id){
+		
+		User user=userCredentialService.getByUserId(id);
+		return new ResponseEntity<>(user, HttpStatus.OK);
+		
+	}
+	/*--------simple admin register without otp for testing--------------*/
+	@PostMapping("/adminRegister")
+	public ResponseEntity<?> addNewAdmin(@Valid @RequestBody AdminDto admin) {
+		if( userCredentialService.AdminEmailCheck(admin)) {
+			  return ResponseEntity.ok(userCredentialService.saveAdminCredential(admin));
+				
+		}
+		else {
+			throw new RuntimeException("Invalid Credentials");
+				
+		}
+		
+      
+	}
+	/*----------------WITH OTP FEATURE-------------------------------*/
+	public AdminDto admindto1;
+	
+//	@PostMapping("/adminRegister")
+//	public ResponseEntity<?> addNewAdmin(@Valid @RequestBody AdminDto admin) {
+//		if( userCredentialService.AdminEmailCheck(admin)) {
+//		OtpRequest otpRequest=new OtpRequest();
+//		otpRequest.setUsername(admin.getUsername());
+//		otpRequest.setPhoneNumber(admin.getMobileNo());
+//		 OtpResponseDto otpResponse = userCredentialService.sendSMS(otpRequest);
+//		 
+//		 if(otpResponse.getStatus().toString()=="FAILED") {
+//			 
+//			 return ResponseEntity.ok(otpResponse);
+//			 
+//		 }
+//		 else {
+//			 
+//			 admindto1=admin;
+//			 return ResponseEntity.ok(otpResponse);
+//			 
+//		 }}
+//		else {
+//			return  ResponseEntity.ok("email already present");
+//		}
+//		
+//	}
+//	
+//	 @PostMapping("/send-otp")
+//	    public ResponseEntity<?> sendOtp(@RequestBody OtpRequest otpRequest) {
+//	        try {
+//	        	System.out.println(otpRequest.getUsername()+""+otpRequest.getPhoneNumber());
+//	            // Check if username or mobile number already exists
+//	            if (true) {
+//	            	  OtpResponseDto otpResponse = userCredentialService.sendSMS(otpRequest);
+//	  	            return ResponseEntity.ok(otpResponse);
+//	            	
+//	            }
+//	            else {
+//	            	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username and mobile number not found");
+//	            
+//	            }
+//	            // Proceed with sending OTP if username and mobile number are unique
+//	          
+//	        } catch (Exception e) {
+//	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send OTP");
+//	        }
+//	    }
+//	    
+//
+//	    @PostMapping("/validate-otp")
+//	    public ResponseEntity<?> validateOtp(@RequestBody OtpValidationRequest otpValidationRequest) {
+//	        try {
+//	        	OtpValidationResponse validationResponse = userCredentialService.validateOtp(otpValidationRequest);
+//	        	logger.info("vlidation response "+ validationResponse);
+//	        	if(validationResponse!=null) {
+//	        		logger.info("saving admin "+ admindto1);
+//	        		userCredentialService.saveAdminCredential(admindto1);
+//	            return ResponseEntity.status(HttpStatus.CREATED).body(validationResponse);
+//	        	}else {
+//	        		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(" Invalid OTP"); 
+//	        	}
+//	        } catch (Exception e) {
+//	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to validate OTP"); 
+//	        }
+//	    }
+}
+
+
+

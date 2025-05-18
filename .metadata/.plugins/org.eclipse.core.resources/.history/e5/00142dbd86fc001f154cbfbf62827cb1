@@ -1,0 +1,209 @@
+version: '3.7'
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vinayteja
+      POSTGRES_DB: booking
+      
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  servicereg:
+    image: vinaysteja0231/service-reg:V17
+    container_name: servicereg
+    ports:
+      - "8761:8761"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  user:
+    image: vinaysteja0231/user:V17
+    container_name: user
+    ports:
+      - "8086:8086"
+    depends_on:
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  tour:
+    image: vinaysteja0231/tour:V17
+    container_name: tour
+    ports:
+      - "8083:8083"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  review:
+    image: vinaysteja0231/review:V17
+    container_name: review
+    ports:
+      - "8085:8085"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  touristguide:
+    image: vinaysteja0231/touristguide:V17
+    container_name: touristguide
+    ports:
+      - "8088:8088"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  payment:
+    image: vinaysteja0231/payment:V17
+    container_name: payment
+    ports:
+      - "8089:8089"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  gateway:
+    image: vinaysteja0231/gateway:V17
+    container_name: gateway
+    ports:
+      - "8090:8090"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+  booking:
+    image: vinaysteja0231/booking:V17
+    container_name: booking
+    ports:
+      - "8084:8084"
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - postgres
+      - pgadmin
+      - servicereg
+    networks:
+      - microservice-network
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://servicereg:8761/eureka
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - microservice-network
+      - postgres
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - microservice-network
+      - postgres
+  frontend:
+    image: vinaysteja0231/mtravel-bees:latestV18 # Replace with your actual image name
+    container_name: frontend
+    ports:
+      - "4200:80"  # Exposing port 80 of the container to port 4200 on the host
+    depends_on:
+      - gateway  # Make sure it starts after the gateway
+      - user
+      - tour
+    networks:
+      - microservice-network
+      - postgres
+
+networks:
+  microservice-network:
+    driver: bridge
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
