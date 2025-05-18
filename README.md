@@ -1,6 +1,6 @@
 "# TRAVEL-BEES Project(v1.0)" 
 
-TRAVEL BEes - Tourist Guide Application (v1.0)
+🐝TRAVEL BEes - Tourist Guide Application (v1.0)
 TRAVEL BEes is a comprehensive tourist guide application designed to connect travelers with local tourist guides across multiple destinations. This application is built using a microservices architecture to ensure scalability, flexibility, and maintainability.
 
 Overview
@@ -48,3 +48,9 @@ Security: Spring Security with JWT (JSON Web Tokens)
 Payment Integration: Razorpay (supporting debit, credit, and net banking)
 
 Architecture: Microservices with Service Registry and API Gateway
+ Additional Features
+✅ OTP system for secure admin login
+
+🔔 Notification boxes on the frontend for status updates and confirmations
+
+⏭️ Sliding window UI components for smooth navigation and modern UX
